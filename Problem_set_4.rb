@@ -2,31 +2,31 @@
 # anagrams of a given string.
 
 def anagrams(string, array)
-	
+
 	string_splitted = string.split("")
 	array_of_anagrams = []
-	
+
 	array.each do |word|
-		
+
 		current_splitted_word = word.split("")
-		
+
 		if current_splitted_word.length == string_splitted.length
 			i = 0
 			counter = 0
-			
-			while i < string_splitted.length 
-			
+
+			while i < string_splitted.length
+
 			  if current_splitted_word.include?(string_splitted[i])
 			  	counter += 1
 			  end
-			
+
 			i += 1
 		 end
-		 
+
 		 if counter == string_splitted.length
 		 	array_of_anagrams << current_splitted_word.join
 		 end
-	 end	 
+	 end
 	end
  array_of_anagrams
 end
@@ -44,15 +44,15 @@ puts anagrams("aa", words) == ["aa"]
 # Write a boolean function that returns true if the vowels in a given word appear in order
 
 def ordered_vowel_word?(word)
-	
+
 	splitted_word = word.split("")
-	
+
 	splitted_word.each do |letter|
-		
+
 		if letter != "a" || "e" || "i" || "o" || "u" || "y"
 		  splitted_word.delete(letter)
 	  end
-	  
+
 	end
 	sorted_word = splitted_word.sort
 	splitted_word == sorted_word
@@ -71,18 +71,18 @@ def ordered?(word)
 	splitted_word = word.split("")
 	vowels = ["a","e","i","o","u","y"]
 	new_word = []
-	
+
   splitted_word.each {|letter| new_word << letter if vowels.include?(letter)}
   new_word.sort == new_word
-	
+
 end
 
 def ordered_vowels(words)
-	
+
 	new_array = []
 	words.each { |word| new_array << word if ordered?(word) }
 	new_array
-	
+
 end
 
 puts "\nOrdered Vowels:\n" + "*" * 15 + "\n"
@@ -101,18 +101,18 @@ def repeat?(number)
 end
 
 def no_repeat_years(first_year, last_year)
-	
+
 	new_arr = []
 	results = []
 	i = 0
-	
+
 	(first_year..last_year).each { |num| new_arr << num }
 
 	while i < new_arr.length
 	  	results << new_arr[i] if repeat?(new_arr[i])
 	  i += 1
   end
-  
+
   results
 end
 
@@ -127,22 +127,22 @@ puts no_repeat_years(2016, 2020) == [2016, 2017, 2018, 2019]
 # Use a hash within your method to keep track of the letter counts.  You will need to account for spaces.  There are a few ways you can do this.
 
 def most_frequent_letter(string)
-	
+
 	alpha_count = Hash.new 0
 	string_splitted = string.delete(" ").split("")
-	
+
 	string_splitted.each { |letter| alpha_count[letter] += 1 }
-	
+
   most_letter = []
   most_count = 0
-  
+
   alpha_count.each do |letter, number|
-  	
+
   	if number > most_count
   		most_count = number
   		most_letter = letter
   	end
-  	
+
   end
   most_letter
 end
@@ -159,14 +159,14 @@ puts most_frequent_letter("we the people in order to form a more perfect union")
 
 def non_unique_letters(string)
 	splitted_string = string.delete(" ").split("")
-	 
+
 	count = Hash.new 0
 	new_arr = []
-	
+
 	splitted_string.each { |letter| count[letter] += 1 }
 	count.each { |k,v| new_arr << k if v > 1 }
   new_arr
-	
+
 end
 
 puts "\nNon-Unique Letters\n" + "*" * 15 + "\n"
@@ -184,11 +184,11 @@ puts non_unique_letters("aaa bbb c d eee") == ["a", "b", "e"]
 def missing_letters(string)
 	alpha_hash = Hash.new 0
 	results = []
-	
+
 	("a".."z").each {|letter| alpha_hash[letter] = 0 }
 	string_splitted = string.delete(" ").split("")
 	string_splitted.each { |letter| alpha_hash[letter] += 1 }
-	
+
 	alpha_hash.each { |letter, value| results << letter if value == 0 }
 	results
 end
@@ -201,15 +201,15 @@ puts missing_letters("abcdefghiklmnopstuvwxyz") == ["j", "q", "r"]
 #write a function primes that an arguement n and returns the first n primes
 
 def is_prime?(num)
-	
+
   return false if num <= 1
   Math.sqrt(num).to_i.downto(2).each {|i| return false if num % i == 0}
   true
-  
+
 end
 
 def primes(n)
-	
+
 results = []
 i = 2
 
@@ -233,30 +233,30 @@ puts primes(6) == [2,3,5,7,11,13]
 # you've written a first draft.
 
 def zero_sum?(array)
-	
+
 	current_number = []
 	current_num = []
 	current_array = []
 	i = 0
-	
+
 	while i < array.length
 	 current_number = array[i]
-		
-		array.each do |num| 
+
+		array.each do |num|
 		 current_num = num
-			
+
 			current_array << current_number + num
 	  end
-	  
+
 	 i += 1
   end
-  
+
   if array.count(0) == 1
    current_array.count(0) >= 2
   else
    current_array.include?(0)
   end
-  
+
 end
 
 puts "\nZero Sum:\n" + "*" * 15 + "\n"
@@ -272,6 +272,17 @@ puts zero_sum?([2,3,4,-3,1]) == true
 # you've written a first draft.
 
 def largest_sum_pair(array)
+
+  nums_arr = []
+	nums_idx = []
+
+	array.each_with_index { |num, num_idx| nums_idx << num_idx if num == array.max }
+
+  if nums_idx.length == 1
+		array.delete_at(nums_idx[0])
+		array.each_with_index { |num, num_idx| nums_idx << num_idx if num == array.max }
+	end
+	nums_idx.sort
 end
 
 puts "\nLargest Sum Pair:\n" + "*" * 15 + "\n"
